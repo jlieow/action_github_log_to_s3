@@ -21,13 +21,17 @@ runs:
           aws configure set aws_secret_access_key ${{ inputs.aws_secret_access_key }} --profile ${{ inputs.profile_name }}
 
           echo GITHUB_CONTEXT: $GITHUB_CONTEXT 
-          echo currentdate: $(date +'%Y-%m-%dT%H:%M:%S')
-          echo timestamp: $(echo $GITHUB_CONTEXT| jq -r '.event.head_commit.timestamp')
 
-          echo ref: $(echo $GITHUB_CONTEXT| jq -r '.ref') >> ${currentdate}.txt
+          run_number = $(echo $GITHUB_CONTEXT| jq -r '.run_number')
+          timestamp = $(date +'%Y-%m-%dT%H:%M:%S')
+          ref = $(echo $GITHUB_CONTEXT| jq -r '.ref')
+
+          fileName = ${run_number}-${timestamp}-${ref}
+
+          echo ref: $(echo $GITHUB_CONTEXT| jq -r '.ref') >> ${fileName}.txt
           
-          echo printing ${currentdate}.txt
-          cat ${currentdate}.txt
+          echo printing ${fileName}.txt
+          cat ${fileName}.txt
 
-          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${currentdate}.txt s3://githublogs-hubandspoke
+          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${fileName}.txt s3://githublogs-hubandspoke
       shell: bash
