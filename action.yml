@@ -37,16 +37,16 @@ runs:
           echo timestamp: $timestamp
           echo ref: $ref
 
-          fileName=RN${run_number}-RA${run_attempt}-TS${timestamp}-${ref}
+          fileName=RN${run_number}-RA${run_attempt}-TS${timestamp}-${ref}.json
 
-          echo $GITHUB_CONTEXT | python -m json.tool >> ${fileName}.txt
+          echo $GITHUB_CONTEXT | python -m json.tool >> ${fileName}
           
-          echo printing ${fileName}.txt
-          cat ${fileName}.txt
+          echo printing ${fileName}
+          cat ${fileName}
 
-          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${fileName}.txt s3://${{ inputs.s3_bucket_name }}/${{ inputs.s3_folder_path }}/${fileName}.txt
+          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${fileName} s3://${{ inputs.s3_bucket_name }}/${{ inputs.s3_folder_path }}/${fileName}.txt
 
-          gzip ${fileName}.txt
+          gzip ${fileName}
           
-          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${fileName}.txt.gz s3://${{ inputs.s3_bucket_name }}/${{ inputs.s3_folder_path }}/${fileName}.txt
+          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${fileName}.gz s3://${{ inputs.s3_bucket_name }}/${{ inputs.s3_folder_path }}/${fileName}.gz
       shell: bash
