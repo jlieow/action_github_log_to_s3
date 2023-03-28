@@ -25,5 +25,5 @@ runs:
           echo printing logger.txt
           cat logger.txt
 
-          aws s3 cp --profile ${{ inputs.profile_name }} logger.txt s3://githublogs-hubandspoke
+          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 logger.txt s3://githublogs-hubandspoke
       shell: bash
