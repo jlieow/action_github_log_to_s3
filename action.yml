@@ -30,7 +30,7 @@ runs:
           echo timestamp: $timestamp
           echo ref: $ref
 
-          fileName=${run_number}-${timestamp}-${ref}
+          fileName=RN${run_number}-TS${timestamp}-${ref}
 
           echo ref: $(echo $GITHUB_CONTEXT | jq -r '.ref') >> ${fileName}.txt
           
