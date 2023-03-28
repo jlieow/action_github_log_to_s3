@@ -44,9 +44,9 @@ runs:
           echo printing ${fileName}.txt
           cat ${fileName}.txt
 
-          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${fileName}.txt s3://${{ inputs.s3_folder_path }}/${{ inputs.s3_bucket_name }}
+          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${fileName}.txt s3://${{ inputs.s3_bucket_name }}/${{ inputs.s3_folder_path }}/${fileName}.txt
 
           gzip ${fileName}.txt
           
-          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${fileName}.txt.gz s3://${{ inputs.s3_folder_path }}/${{ inputs.s3_bucket_name }}
+          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${fileName}.txt.gz s3://${{ inputs.s3_bucket_name }}/${{ inputs.s3_folder_path }}/${fileName}.txt
       shell: bash
