@@ -1,0 +1,27 @@
+# action.yaml
+name: "Log GitHub Action Context to S3 Bucket"
+description: "Log GitHub Action Context to S3 Bucket"
+inputs:
+  aws_access_key_id:
+    description: "AWS Access Key ID."
+    required: false
+  aws_secret_access_key:
+    description: "AWS Secret Access Key."
+    required: false
+  profile_name:
+    description: "AWS Profile Name."
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - run: |
+          aws configure set aws_access_key_id ${{ inputs.aws_access_key_id }} --profile ${{ inputs.profile_name }}
+          aws configure set aws_secret_access_key ${{ inputs.aws_secret_access_key }} --profile ${{ inputs.profile_name }}
+
+          echo GITHUB_CONTEXT: $GITHUB_CONTEXT
+          echo ref: $(echo $GITHUB_CONTEXT| jq -r '.ref') >> logger.txt
+          echo printing logger.txt
+          cat logger.txt
+
+          aws s3 cp --profile ${{ inputs.profile_name }} logger.txt s3://githublogs-hubandspoke
+      shell: bash
