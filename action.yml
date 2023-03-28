@@ -23,7 +23,12 @@ runs:
           echo GITHUB_CONTEXT: $GITHUB_CONTEXT >>
           echo timestamp: $(echo $GITHUB_CONTEXT| jq -r '.event.timestamp')
 
-          filename = $(echo $GITHUB_CONTEXT| jq -r '.event.timestamp')
+          withNLfilename = $(echo $GITHUB_CONTEXT| jq -r '.event.timestamp')
+          echo withNLfilename: $withNLfilename
+
+          filename = $(echo $GITHUB_CONTEXT| jq -r '.event.timestamp' | tr -d '\n')
+          echo filename: $filename
+
           echo ref: $(echo $GITHUB_CONTEXT| jq -r '.ref') >> ${filename}.txt
           
           echo printing ${filename}.txt
