@@ -22,13 +22,13 @@ runs:
 
           echo GITHUB_CONTEXT: $GITHUB_CONTEXT 
 
-          run_number = $(echo $GITHUB_CONTEXT| jq -r '.run_number')
-          timestamp = $(date +'%Y-%m-%dT%H:%M:%S')
-          ref = $(echo $GITHUB_CONTEXT| jq -r '.ref')
+          run_number=$(echo $GITHUB_CONTEXT | jq -r '.run_number')
+          timestamp=$(date +'%Y-%m-%dT%H:%M:%S')
+          ref=$(echo $GITHUB_CONTEXT | jq -r '.ref')
 
-          fileName = ${run_number}-${timestamp}-${ref}
+          fileName=${run_number}-${timestamp}-${ref}
 
-          echo ref: $(echo $GITHUB_CONTEXT| jq -r '.ref') >> ${fileName}.txt
+          echo ref: $(echo $GITHUB_CONTEXT | jq -r '.ref') >> ${fileName}.txt
           
           echo printing ${fileName}.txt
           cat ${fileName}.txt
