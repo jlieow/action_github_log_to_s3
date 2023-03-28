@@ -37,7 +37,7 @@ runs:
           echo timestamp: $timestamp
           echo ref: $ref
 
-          fileName=RN${run_number}-RA${run_attempt}-TS${timestamp}-${ref}.json
+          fileName=RN${run_number}-RA${run_attempt}-TS${timestamp}-${ref}.txt
 
           echo $GITHUB_CONTEXT | python -m json.tool >> ${fileName}
           
