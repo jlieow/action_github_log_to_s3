@@ -21,18 +21,13 @@ runs:
           aws configure set aws_secret_access_key ${{ inputs.aws_secret_access_key }} --profile ${{ inputs.profile_name }}
 
           echo GITHUB_CONTEXT: $GITHUB_CONTEXT 
-          echo timestamp: $(echo $GITHUB_CONTEXT| jq -r '.event.timestamp')
+          echo currentdate: $(date +'%Y-%m-%dT%H:%M:%S')
+          echo timestamp: $(echo $GITHUB_CONTEXT| jq -r '.event.head_commit.timestamp')
 
-          withNLfilename = $(echo $GITHUB_CONTEXT| jq -r '.event.timestamp')
-          echo withNLfilename: $withNLfilename
-
-          filename = $(echo $GITHUB_CONTEXT| jq -r '.event.timestamp' | tr -d '\n')
-          echo filename: $filename
-
-          echo ref: $(echo $GITHUB_CONTEXT| jq -r '.ref') >> ${filename}.txt
+          echo ref: $(echo $GITHUB_CONTEXT| jq -r '.ref') >> ${currentdate}.txt
           
-          echo printing ${filename}.txt
-          cat ${filename}.txt
+          echo printing ${currentdate}.txt
+          cat ${currentdate}.txt
 
-          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${filename}.txt s3://githublogs-hubandspoke
+          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${currentdate}.txt s3://githublogs-hubandspoke
       shell: bash
