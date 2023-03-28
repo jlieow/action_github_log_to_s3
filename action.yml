@@ -20,19 +20,19 @@ runs:
           aws configure set aws_access_key_id ${{ inputs.aws_access_key_id }} --profile ${{ inputs.profile_name }}
           aws configure set aws_secret_access_key ${{ inputs.aws_secret_access_key }} --profile ${{ inputs.profile_name }}
 
-          echo GITHUB_CONTEXT: $GITHUB_CONTEXT 
-
           run_number=$(echo $GITHUB_CONTEXT | jq -r '.run_number')
+          run_attempt=$(echo $GITHUB_CONTEXT | jq -r '.run_attempt')
           timestamp=$(date +'%Y-%m-%dT%H:%M:%S')
           ref=$(echo $GITHUB_CONTEXT | jq -r '.ref' | tr '/' '_')
 
           echo run_number: $run_number
+          echo run_attempt: $run_attempt
           echo timestamp: $timestamp
           echo ref: $ref
 
-          fileName=RN${run_number}-TS${timestamp}-${ref}
+          fileName=RN${run_number}-RA${run_attempt}-TS${timestamp}-${ref}
 
-          echo ref: $(echo $GITHUB_CONTEXT | jq -r '.ref') >> ${fileName}.txt
+          echo $GITHUB_CONTEXT >> ${fileName}.txt
           
           echo printing ${fileName}.txt
           cat ${fileName}.txt
