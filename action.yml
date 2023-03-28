@@ -20,10 +20,14 @@ runs:
           aws configure set aws_access_key_id ${{ inputs.aws_access_key_id }} --profile ${{ inputs.profile_name }}
           aws configure set aws_secret_access_key ${{ inputs.aws_secret_access_key }} --profile ${{ inputs.profile_name }}
 
-          echo GITHUB_CONTEXT: $GITHUB_CONTEXT
-          echo ref: $(echo $GITHUB_CONTEXT| jq -r '.ref') >> logger.txt
-          echo printing logger.txt
-          cat logger.txt
+          echo GITHUB_CONTEXT: $GITHUB_CONTEXT >>
+          echo timestamp: $(echo $GITHUB_CONTEXT| jq -r '.event.timestamp')
 
-          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 logger.txt s3://githublogs-hubandspoke
+          filename = $(echo $GITHUB_CONTEXT| jq -r '.event.timestamp')
+          echo ref: $(echo $GITHUB_CONTEXT| jq -r '.ref') >> ${filename}.txt
+          
+          echo printing ${filename}.txt
+          cat ${filename}.txt
+
+          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${filename}.txt s3://githublogs-hubandspoke
       shell: bash
