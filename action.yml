@@ -20,7 +20,7 @@ runs:
           aws configure set aws_access_key_id ${{ inputs.aws_access_key_id }} --profile ${{ inputs.profile_name }}
           aws configure set aws_secret_access_key ${{ inputs.aws_secret_access_key }} --profile ${{ inputs.profile_name }}
 
-          echo GITHUB_CONTEXT: $GITHUB_CONTEXT >>
+          echo GITHUB_CONTEXT: $GITHUB_CONTEXT 
           echo timestamp: $(echo $GITHUB_CONTEXT| jq -r '.event.timestamp')
 
           withNLfilename = $(echo $GITHUB_CONTEXT| jq -r '.event.timestamp')
