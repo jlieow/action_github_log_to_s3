@@ -4,13 +4,16 @@ description: "Log GitHub Action Context to S3 Bucket"
 inputs:
   aws_access_key_id:
     description: "AWS Access Key ID."
-    required: false
+    required: true
   aws_secret_access_key:
     description: "AWS Secret Access Key."
-    required: false
+    required: true
   profile_name:
     description: "AWS Profile Name."
-    required: false
+    required: true
+  s3_bucket_name:
+    description: "S3 Bucket Name."
+    required: true
 runs:
   using: "composite"
   steps:
@@ -37,5 +40,5 @@ runs:
           echo printing ${fileName}.txt
           cat ${fileName}.txt
 
-          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${fileName}.txt s3://githublogs-hubandspoke
+          aws s3 cp --profile ${{ inputs.profile_name }} --region ap-southeast-1 ${fileName}.txt s3://${{ inputs.s3_bucket_name }}
       shell: bash
