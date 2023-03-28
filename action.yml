@@ -32,7 +32,7 @@ runs:
 
           fileName=RN${run_number}-RA${run_attempt}-TS${timestamp}-${ref}
 
-          echo $GITHUB_CONTEXT >> ${fileName}.txt
+          echo $GITHUB_CONTEXT | python -m json.tool >> ${fileName}.txt
           
           echo printing ${fileName}.txt
           cat ${fileName}.txt
