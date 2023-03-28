@@ -24,7 +24,11 @@ runs:
 
           run_number=$(echo $GITHUB_CONTEXT | jq -r '.run_number')
           timestamp=$(date +'%Y-%m-%dT%H:%M:%S')
-          ref=$(echo $GITHUB_CONTEXT | jq -r '.ref')
+          ref=$(echo $GITHUB_CONTEXT | jq -r '.ref' | tr '/' '_')
+
+          echo run_number: $run_number
+          echo timestamp: $timestamp
+          echo ref: $ref
 
           fileName=${run_number}-${timestamp}-${ref}
 
